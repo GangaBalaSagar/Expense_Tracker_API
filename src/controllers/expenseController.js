@@ -97,8 +97,33 @@ async function getExpenseTotal(req, res, next) {
   }
 }
 
+async function deleteExpense(req, res, next) {
+  try {
+    const expenses = await readExpenses();
+    const expenseIndex = expenses.findIndex((expense) => expense.id === req.params.id);
+
+    if (expenseIndex === -1) {
+      return res.status(404).json({
+        success: false,
+        message: "Expense not found.",
+      });
+    }
+
+    expenses.splice(expenseIndex, 1);
+    await writeExpenses(expenses);
+
+    return res.status(200).json({
+      success: true,
+      message: "Expense deleted successfully.",
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   addExpense,
   getAllExpenses,
   getExpenseTotal,
+  deleteExpense,
 };
