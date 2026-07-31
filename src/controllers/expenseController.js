@@ -9,6 +9,36 @@ function generateExpenseId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}-${process.pid}`;
 }
 
+function normalizeCategory(category) {
+  return typeof category === "string" ? category.trim().toLowerCase() : "";
+}
+
+function filterExpensesByCategory(expenses, category) {
+  const normalizedCategory = normalizeCategory(category);
+
+  if (!normalizedCategory) {
+    return expenses;
+  }
+
+  return expenses.filter((expense) => {
+    if (typeof expense.category !== "string") {
+      return false;
+    }
+
+    return normalizeCategory(expense.category) === normalizedCategory;
+  });
+}
+
+function calculateTotal(expenses) {
+  return expenses.reduce((total, expense) => {
+    if (typeof expense.amount !== "number" || !Number.isFinite(expense.amount)) {
+      return total;
+    }
+
+    return total + expense.amount;
+  }, 0);
+}
+
 async function addExpense(req, res, next) {
   try {
     const expenses = await readExpenses();
@@ -37,17 +67,7 @@ async function getAllExpenses(req, res, next) {
   try {
     const expenses = await readExpenses();
     const { category } = req.query;
-
-    const filteredExpenses =
-      typeof category === "string" && category.trim()
-        ? expenses.filter((expense) => {
-            if (typeof expense.category !== "string") {
-              return false;
-            }
-
-            return expense.category.trim().toLowerCase() === category.trim().toLowerCase();
-          })
-        : expenses;
+    const filteredExpenses = filterExpensesByCategory(expenses, category);
 
     return res.status(200).json({
       success: true,
@@ -59,7 +79,26 @@ async function getAllExpenses(req, res, next) {
   }
 }
 
+async function getExpenseTotal(req, res, next) {
+  try {
+    const expenses = await readExpenses();
+    const { category } = req.query;
+    const filteredExpenses = filterExpensesByCategory(expenses, category);
+    const total = calculateTotal(filteredExpenses);
+    const hasCategory = typeof category === "string" && category.trim();
+
+    return res.status(200).json({
+      success: true,
+      category: hasCategory ? category.trim() : "All",
+      total,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   addExpense,
   getAllExpenses,
+  getExpenseTotal,
 };
