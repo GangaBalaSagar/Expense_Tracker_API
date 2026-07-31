@@ -36,11 +36,23 @@ async function addExpense(req, res, next) {
 async function getAllExpenses(req, res, next) {
   try {
     const expenses = await readExpenses();
+    const { category } = req.query;
+
+    const filteredExpenses =
+      typeof category === "string" && category.trim()
+        ? expenses.filter((expense) => {
+            if (typeof expense.category !== "string") {
+              return false;
+            }
+
+            return expense.category.trim().toLowerCase() === category.trim().toLowerCase();
+          })
+        : expenses;
 
     return res.status(200).json({
       success: true,
-      count: expenses.length,
-      data: expenses,
+      count: filteredExpenses.length,
+      data: filteredExpenses,
     });
   } catch (error) {
     return next(error);
