@@ -1,5 +1,6 @@
 const express = require("express");
 const expenseRoutes = require("./routes/expenseRoutes");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
@@ -10,5 +11,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/expenses", expenseRoutes);
+app.use(errorHandler);
 
 module.exports = app;
