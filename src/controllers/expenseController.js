@@ -33,6 +33,21 @@ async function addExpense(req, res, next) {
   }
 }
 
+async function getAllExpenses(req, res, next) {
+  try {
+    const expenses = await readExpenses();
+
+    return res.status(200).json({
+      success: true,
+      count: expenses.length,
+      data: expenses,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   addExpense,
+  getAllExpenses,
 };
