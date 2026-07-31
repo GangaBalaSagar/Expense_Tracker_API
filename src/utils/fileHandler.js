@@ -13,13 +13,25 @@ async function readExpenses() {
 
     const parsedExpenses = JSON.parse(fileContents);
 
-    return Array.isArray(parsedExpenses) ? parsedExpenses : [];
+    if (!Array.isArray(parsedExpenses)) {
+      throw new Error(`Invalid expenses data in ${expensesFilePath}: expected a JSON array.`);
+    }
+
+    return parsedExpenses;
   } catch (error) {
     if (error.code === "ENOENT") {
       return [];
     }
 
-    return [];
+    if (error instanceof SyntaxError) {
+      throw new Error(`Failed to parse expenses data from ${expensesFilePath}: malformed JSON.`);
+    }
+
+    if (error.message && error.message.indexOf("Invalid expenses data in") === 0) {
+      throw error;
+    }
+
+    throw new Error(`Failed to read expenses data from ${expensesFilePath}: ${error.message}`);
   }
 }
 

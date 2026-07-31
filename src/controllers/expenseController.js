@@ -112,10 +112,7 @@ async function deleteExpense(req, res, next) {
     expenses.splice(expenseIndex, 1);
     await writeExpenses(expenses);
 
-    return res.status(200).json({
-      success: true,
-      message: "Expense deleted successfully.",
-    });
+    return res.status(204).send();
   } catch (error) {
     return next(error);
   }

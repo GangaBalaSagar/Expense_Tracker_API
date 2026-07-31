@@ -102,7 +102,7 @@ const swaggerDefinition = {
           },
           date: {
             type: "string",
-            format: "date-time",
+            format: "date",
             example: "2026-07-31",
           },
         },
@@ -156,19 +156,6 @@ const swaggerDefinition = {
           total: {
             type: "number",
             example: 350,
-          },
-        },
-      },
-      DeleteExpenseResponse: {
-        type: "object",
-        properties: {
-          success: {
-            type: "boolean",
-            example: true,
-          },
-          message: {
-            type: "string",
-            example: "Expense deleted successfully.",
           },
         },
       },
@@ -412,17 +399,8 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
  *         description: Expense id to delete.
  *         example: d5c84b7c-0f5b-4bbd-9d24-7ab1d1d2b1a1
  *     responses:
- *       200:
- *         description: Expense deleted successfully.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/DeleteExpenseResponse'
- *             examples:
- *               deleted:
- *                 value:
- *                   success: true
- *                   message: Expense deleted successfully.
+ *       204:
+ *         description: Expense deleted successfully. No content is returned.
  *       404:
  *         description: Expense not found.
  *         content:

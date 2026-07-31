@@ -1,59 +1,46 @@
 # AI Usage Notes
 
-## 1. Overview
+## Overview
 
-AI tools, including ChatGPT/Codex, were used as development assistants during implementation. All generated code and documentation were reviewed before being accepted into the project.
+AI tools were used as development assistants during this take-home assignment. All generated code, documentation, and recommendations were reviewed before being accepted into the project.
 
-## 2. AI-Assisted Tasks
+## AI-Assisted Work
 
-AI assistance was used to draft and organize the work across the main phases of the project:
+AI helped with:
 
-- project planning from `development.md`
-- Express application setup
-- folder and file structure
-- middleware implementation
-- controller logic
-- route wiring
-- input validation
-- JSON file storage utilities
-- centralized error handling
-- Jest and Supertest test cases
-- Swagger/OpenAPI documentation
-- README drafting
+- architecture discussions during the incremental build
+- Express app setup and folder organization
+- route and controller implementation ideas
+- validation middleware design
+- JSON file storage helpers
+- centralized error-handling suggestions
+- Swagger/OpenAPI documentation structure
+- Jest and Supertest test ideas
+- README improvements
 
-## 3. Human Contributions
+## Human Validation
 
-The final implementation was manually reviewed and validated. Human work included:
+Every AI suggestion was checked against the actual application behavior. Validation included:
 
-- reviewing generated code before it was accepted
-- checking that API behavior matched the assignment requirements
-- debugging issues during implementation
-- running the test suite
-- verifying endpoint behavior with manual requests
-- checking persistence in `expenses.json`
+- running the Jest suite
+- testing endpoints with Supertest
+- verifying request validation and error responses
+- checking JSON file persistence
 - reviewing Swagger output in the browser
-- deciding when the implementation was complete for each phase
+- confirming that the API matched the assignment scope
 
-## 4. Validation and Changes
+## Rejected AI Suggestions
 
-AI-generated output was validated through a combination of automated and manual checks:
+Some suggestions were intentionally not used:
 
-- manual endpoint testing for `GET`, `POST`, and `DELETE` flows
-- verification of JSON response shapes and HTTP status codes
-- testing validation failures and multiple-field validation errors
-- checking that expense data persisted to `expenses.json`
-- verifying delete behavior and not-found responses
-- reviewing Swagger documentation output
-- running `npm test` to confirm the Jest/Supertest suite passed
+- MongoDB: the assignment allowed JSON file storage, so a database was unnecessary
+- Docker: not required for the scope of the take-home
+- Service Layer: the project was small enough that adding one would have added complexity without meaningful value
+- Repository Pattern: not needed for a simple JSON-backed assignment
+- Authentication: not part of the requirements
+- Logging Framework: useful in larger systems, but unnecessary overhead here
+- Production architecture: rejected because the goal was a clear assignment implementation, not an overbuilt platform
 
-## 5. AI Suggestions Not Used
+## Final Statement
 
-Some AI suggestions were intentionally not implemented:
-
-- a separate service layer was not added because it was unnecessary for the scope of this assignment
-- a database migration was not introduced because JSON file storage was explicitly allowed
-- extra architectural complexity was avoided to keep the project aligned with the incremental roadmap
-
-## 6. Final Statement
-
-AI accelerated development, but all code, documentation, and API behavior were manually reviewed, tested, and verified before submission.
+The final implementation reflects engineering decisions made after reviewing and validating AI suggestions. AI accelerated the work, but the code and documentation were shaped by manual review and scope-aware judgment.
